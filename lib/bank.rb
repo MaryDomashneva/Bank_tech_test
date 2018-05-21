@@ -1,3 +1,4 @@
+require_relative './accessories'
 require_relative './print_transactions'
 
 class Bank
@@ -9,15 +10,10 @@ class Bank
     than the available balance!'
   }.freeze
 
-  CREDIT_ACCESSORY = 'credit'
-  DEBIT_ACCESSORY = 'debit'
-
   def initialize(account = 0)
     @account = account
     @transactions = {}
   end
-
-  # strftime("%m/%d/%Y")
 
   def deposit(amount, date = Time.now)
     @account += amount

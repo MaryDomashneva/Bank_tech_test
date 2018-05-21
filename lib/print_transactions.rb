@@ -1,10 +1,12 @@
 require 'date'
+require_relative './accessories'
 
 class Printer
 
   def print_statement(header = default_header, transactions)
-    p header
-    p convert_transactions_to_string(transactions)
+    result_string = header + "\n" + convert_transactions_to_string(transactions)
+    p result_string
+    return result_string
   end
 
   private
@@ -17,7 +19,7 @@ class Printer
     string = ''
     all_transactions = reverse_hash(transactions)
     all_transactions.each do |date, statement|
-      if statement[1] == 'debit' then
+      if statement[1] == DEBIT_ACCESSORY then
         string += "#{format_date(date)} || || #{format_float(statement[0])} || #{format_float(statement[2])}\n"
       else
         string += "#{format_date(date)} || #{format_float(statement[0])} || || #{format_float(statement[2])}\n"

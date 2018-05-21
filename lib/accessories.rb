@@ -1,0 +1,2 @@
+CREDIT_ACCESSORY = 'credit'
+DEBIT_ACCESSORY = 'debit'
