@@ -1,6 +1,11 @@
 require './lib/bank.rb'
 
 describe Bank do
+
+  before(:all) do
+    @bank = Bank.new
+  end
+
   it 'responds to deposit' do
     expect(subject).to respond_to(:deposit).with(1).argument
   end
@@ -16,11 +21,15 @@ describe Bank do
     context "when a account is not specified" do
       it "create a zero account" do
         bank = Bank.new
-        expect(bank.account).to be_nil
+        expect(bank.account).to equal(0)
       end
     end
   end
 
   context 'when make a deposit' do
+    it 'changes bank account' do
+      @bank.deposit(1000)
+      expect(@bank.account).to equal(1000)
+    end
   end
 end
