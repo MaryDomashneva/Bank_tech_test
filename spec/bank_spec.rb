@@ -26,10 +26,18 @@ describe Bank do
     end
   end
 
-  context 'when make a deposit' do
-    it 'changes bank account' do
+  context 'when make a deposit to a bank account' do
+    it 'adds to bank account' do
       @bank.deposit(1000)
       expect(@bank.account).to equal(1000)
+    end
+  end
+
+  context 'when withdrawal from account' do
+    it 'deducted from bank account' do
+      @bank.deposit(1000)
+      @bank.withdrawal(500)
+      expect(@bank.account).to equal(500)
     end
   end
 end
