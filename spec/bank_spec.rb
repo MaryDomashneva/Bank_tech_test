@@ -10,6 +10,10 @@ describe Bank do
     expect(subject).to respond_to(:deposit).with(1).argument
   end
 
+  it 'responds to withdrawal' do
+    expect(subject).to respond_to(:withdrawal).with(1).argument
+  end
+
   context "Initialize" do
     context "when a account is specified" do
       it "uses that account" do
@@ -35,7 +39,6 @@ describe Bank do
 
   context 'when withdrawal from account' do
     it 'deducted from bank account' do
-      @bank.deposit(1000)
       @bank.withdrawal(500)
       expect(@bank.account).to equal(500)
     end
