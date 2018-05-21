@@ -3,6 +3,11 @@ class Bank
   attr_reader :debit_transactions
   attr_reader :credit_transactions
 
+  ERROR_MESSAGES = {
+    exceeded_available_balance: 'The amount you are trying withdraw is greater than the
+     available balance!',
+  }.freeze
+
   def initialize(account = 0)
     @account = account
     @debit_transactions = {}
@@ -15,6 +20,7 @@ class Bank
   end
 
   def withdrawal(amount, time = Time.now)
+    raise ERROR_MESSAGES[:exceeded_available_balance] if exceed_balance?(amount)
     @account -= amount
     write_credit_transaction(amount, time)
   end
@@ -27,5 +33,9 @@ class Bank
 
   def write_credit_transaction(amount, time)
     @credit_transactions[time] = amount
+  end
+
+  def exceed_balance?(amount)
+    @account < amount
   end
 end

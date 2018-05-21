@@ -1,6 +1,12 @@
 require './lib/bank.rb'
 
 describe Bank do
+
+  ERROR_MESSAGES = {
+    exceeded_available_balance: 'The amount you are trying withdraw is greater than the
+     available balance!',
+  }.freeze
+
   before(:all) do
     @bank = Bank.new
   end
@@ -30,7 +36,7 @@ describe Bank do
   end
 
   context 'when make a deposit to a bank account' do
-    it 'adds to bank account' do
+    it 'adds amount to bank account' do
       @bank.deposit(1000, '10/01/2012')
       expect(@bank.account).to equal(1000)
     end
@@ -41,7 +47,13 @@ describe Bank do
   end
 
   context 'when withdrawal from account' do
-    it 'deducted from bank account' do
+    it 'raises an error when withdraw amount more than available balance' do
+      expect { @bank.withdrawal(1500) }.to raise_error(
+        ERROR_MESSAGES[:exceeded_available_balance]
+      )
+    end
+
+    it 'deducted from bank account when withdraw correct amount' do
       @bank.withdrawal(500, '14/01/2012')
       expect(@bank.account).to equal(500)
     end
