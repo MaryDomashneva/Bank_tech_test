@@ -51,8 +51,6 @@ Bank has following methods:
 * ```print_account_transactions``` responsible for printing all available bank transactions in a table format. class ```Printer``` called inside.
 
 Printer has two classes:
-* ```return_string_header```. returns header of the transaction table.
-* ```return_string_transactions```. Convert to a string hash of transactions.
 * ```print_statement```. Print header and transaction string.
 
 ### IRB example

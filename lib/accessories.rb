@@ -1,2 +1,2 @@
-CREDIT_ACCESSORY = 'credit'
-DEBIT_ACCESSORY = 'debit'
+CREDIT_ACCESSORY = 'credit'.freeze
+DEBIT_ACCESSORY = 'debit'.freeze

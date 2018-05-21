@@ -14,7 +14,7 @@ describe Printer do
         '13/01/2012' => [2000, 'debit', 3000],
         '14/01/2012' => [500, 'credit', 2500]
       }
-      expect(subject.print_statement(header, transactions)).to eq(
+      expect(subject.print_statement(transactions, header)).to eq(
         "date || credit || debit || balance\n14/01/2012 || 500.00 || || 2500.00\n13/01/2012 || || 2000.00 || 3000.00\n10/01/2012 || || 1000.00 || 1000.00\n"
       )
     end

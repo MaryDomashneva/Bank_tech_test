@@ -1,6 +1,7 @@
 require_relative './accessories'
 require_relative './print_transactions'
 
+# Bank holds information about user's account and trasactions
 class Bank
   attr_reader :account
   attr_reader :transactions
