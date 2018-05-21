@@ -14,19 +14,26 @@ class Bank
 
   def deposit(amount, time = Time.now)
     @account += amount
-    write_transaction(amount, time)
+    accessory = 'debit'
+    current_balance = @account
+    write_transaction(time, amount, accessory, current_balance)
   end
 
   def withdrawal(amount, time = Time.now)
     raise ERROR_MESSAGES[:exceeded_available_balance] if exceed_balance?(amount)
     @account -= amount
-    write_transaction(amount, time)
+    accessory = 'credit'
+    current_balance = @account
+    write_transaction(time, amount, accessory, current_balance)
   end
 
   private
 
-  def write_transaction(amount, time)
-    @transactions[time] = amount
+  def write_transaction(time, amount, accessory, current_balance)
+    @transactions[time] = []
+    @transactions[time].push(amount)
+    @transactions[time].push(accessory)
+    @transactions[time].push(current_balance)
   end
 
   def exceed_balance?(amount)

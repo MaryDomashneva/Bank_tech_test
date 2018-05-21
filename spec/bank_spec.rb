@@ -42,7 +42,7 @@ describe Bank do
     end
 
     it 'writes to debit transaction' do
-      expect(@bank.transactions['10/01/2012']).to equal(1000)
+      expect(@bank.transactions['10/01/2012'][0]).to equal(1000)
     end
   end
 
@@ -59,7 +59,7 @@ describe Bank do
     end
 
     it 'writes to credit transaction' do
-      expect(@bank.transactions['14/01/2012']).to equal(500)
+      expect(@bank.transactions['14/01/2012'][0]).to equal(500)
     end
   end
 end
