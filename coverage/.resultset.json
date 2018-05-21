@@ -119,16 +119,24 @@
         1,
         1,
         null,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
         null
       ],
       "/Users/mariagetmanova/Desktop/Makers_Projects/Bank_tech_test/lib/print_transactions.rb": [
         1,
         null,
         1,
+        1,
         null,
         null
       ]
     },
-    "timestamp": 1526906731
+    "timestamp": 1526909532
   }
 }
