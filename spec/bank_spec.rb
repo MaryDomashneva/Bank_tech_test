@@ -1,10 +1,9 @@
 require './lib/bank.rb'
 
 describe Bank do
-
   ERROR_MESSAGES = {
-    exceeded_available_balance: 'The amount you are trying withdraw is greater than the
-     available balance!',
+    exceeded_available_balance: 'The amount you are trying withdraw is greater
+    than the available balance!'
   }.freeze
 
   before(:all) do
@@ -41,8 +40,12 @@ describe Bank do
       expect(@bank.account).to equal(1000)
     end
 
-    it 'writes to debit transaction' do
+    it 'writes amount to debit transaction' do
       expect(@bank.transactions['10/01/2012'][0]).to equal(1000)
+    end
+
+    it 'writes current balance to debit transaction' do
+      expect(@bank.transactions['10/01/2012'][2]).to equal(1000)
     end
   end
 
@@ -58,8 +61,12 @@ describe Bank do
       expect(@bank.account).to equal(500)
     end
 
-    it 'writes to credit transaction' do
+    it 'writes amount to credit transaction' do
       expect(@bank.transactions['14/01/2012'][0]).to equal(500)
+    end
+
+    it 'writes current balance to debit transaction' do
+      expect(@bank.transactions['14/01/2012'][2]).to equal(500)
     end
   end
 end
