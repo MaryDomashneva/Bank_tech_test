@@ -6,10 +6,6 @@ describe Bank do
     than the available balance!'
   }.freeze
 
-  before(:all) do
-    @bank = Bank.new
-  end
-
   it 'responds to deposit' do
     expect(subject).to respond_to(:deposit).with(2).argument
   end
@@ -35,8 +31,12 @@ describe Bank do
   end
 
   context 'when make a deposit to a bank account' do
-    it 'adds amount to bank account' do
+    before(:each) do
+      @bank = Bank.new
       @bank.deposit(1000, '10/01/2012')
+    end
+
+    it 'adds amount to bank account' do
       expect(@bank.account).to equal(1000)
     end
 
@@ -50,6 +50,10 @@ describe Bank do
   end
 
   context 'when withdrawal from account' do
+    before(:each) do
+      @bank = Bank.new(1000)
+    end
+
     it 'raises an error when withdraw amount more than available balance' do
       expect { @bank.withdrawal(1500) }.to raise_error(
         ERROR_MESSAGES[:exceeded_available_balance]
@@ -62,10 +66,12 @@ describe Bank do
     end
 
     it 'writes amount to credit transaction' do
+      @bank.withdrawal(500, '14/01/2012')
       expect(@bank.transactions['14/01/2012'][0]).to equal(500)
     end
 
     it 'writes current balance to debit transaction' do
+      @bank.withdrawal(500, '14/01/2012')
       expect(@bank.transactions['14/01/2012'][2]).to equal(500)
     end
   end

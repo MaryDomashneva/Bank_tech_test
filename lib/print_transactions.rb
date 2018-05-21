@@ -1,38 +1,40 @@
 require 'date'
 
 class Printer
-  def return_string_header(header = 'date || credit || debit || balance')
-    header
+
+  def print_statement(header = default_header, transactions)
+    p header
+    p convert_transactions_to_string(transactions)
   end
 
-  def return_string_transactions(transactions)
+  private
+
+  def default_header
+    'date || credit || debit || balance'
+  end
+
+  def convert_transactions_to_string(transactions)
     string = ''
-    all_transactions = hash_reverse(transactions)
+    all_transactions = reverse_hash(transactions)
     all_transactions.each do |date, statement|
-      if statement[1] == 'debit'
-        then string += "#{date_modif(date)} || || #{to_float(statement[0])} || #{to_float(statement[2])} \n"
-      else string += "#{date_modif(date)} || #{to_float(statement[0])} || || #{to_float(statement[2])} \n"
+      if statement[1] == 'debit' then
+        string += "#{format_date(date)} || || #{format_float(statement[0])} || #{format_float(statement[2])}\n"
+      else
+        string += "#{format_date(date)} || #{format_float(statement[0])} || || #{format_float(statement[2])}\n"
       end
     end
     string.chomp(' ')
   end
 
-  def print_statement(header = 'date || credit || debit || balance', transactions)
-    p return_string_header(header)
-    p return_string_transactions(transactions)
-  end
-
-  private
-
-  def to_float(number)
+  def format_float(number)
     format('%.2f', number)
   end
 
-  def date_modif(date_string)
+  def format_date(date_string)
     Date.parse(date_string).strftime('%d/%m/%Y')
   end
 
-  def hash_reverse(hash)
+  def reverse_hash(hash)
     hash.sort.reverse.to_h
   end
 end

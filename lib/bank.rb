@@ -9,6 +9,9 @@ class Bank
     than the available balance!'
   }.freeze
 
+  CREDIT_ACCESSORY = 'credit'
+  DEBIT_ACCESSORY = 'debit'
+
   def initialize(account = 0)
     @account = account
     @transactions = {}
@@ -18,7 +21,7 @@ class Bank
 
   def deposit(amount, date = Time.now)
     @account += amount
-    accessory = 'debit'
+    accessory = DEBIT_ACCESSORY
     current_balance = @account
     write_transaction(date, amount, accessory, current_balance)
   end
@@ -26,24 +29,21 @@ class Bank
   def withdrawal(amount, date = Time.now)
     raise ERROR_MESSAGES[:exceeded_available_balance] if exceed_balance?(amount)
     @account -= amount
-    accessory = 'credit'
+    accessory = CREDIT_ACCESSORY
     current_balance = @account
     write_transaction(date, amount, accessory, current_balance)
   end
 
   def print_account_transactions(transactions)
-    transactions = @transactions
     printer = Printer.new
-    printer.print_statement(header = 'date || credit || debit || balance', transactions)
+    printer.print_statement(transactions)
   end
 
   private
 
   def write_transaction(date, amount, accessory, current_balance)
-    @transactions[date] = []
-    @transactions[date].push(amount)
-    @transactions[date].push(accessory)
-    @transactions[date].push(current_balance)
+    transaction = [amount, accessory, current_balance]
+    @transactions[date] = transaction
   end
 
   def exceed_balance?(amount)
