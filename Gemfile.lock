@@ -51,7 +51,7 @@ PLATFORMS
 DEPENDENCIES
   rake
   rspec
-  rubocop
+  rubocop (~> 0.56.0)
   simplecov
   simplecov-console
 
