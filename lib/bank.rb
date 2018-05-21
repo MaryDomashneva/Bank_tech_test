@@ -1,3 +1,5 @@
+require_relative './print_transactions'
+
 class Bank
   attr_reader :account
   attr_reader :transactions
@@ -12,6 +14,8 @@ class Bank
     @transactions = {}
   end
 
+  # strftime("%m/%d/%Y")
+
   def deposit(amount, date = Time.now)
     @account += amount
     accessory = 'debit'
@@ -25,6 +29,12 @@ class Bank
     accessory = 'credit'
     current_balance = @account
     write_transaction(date, amount, accessory, current_balance)
+  end
+
+  def print_account_transactions(transactions)
+    transactions = @transactions
+    printer = Printer.new
+    printer.print_statement(header = 'date || credit || debit || balance', transactions)
   end
 
   private
