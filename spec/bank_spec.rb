@@ -1,11 +1,7 @@
 require './lib/bank.rb'
 
 describe Bank do
-  ERROR_MESSAGES = {
-    exceeded_available_balance: 'The amount you are trying withdraw is greater
-    than the available balance!'
-  }.freeze
-
+  
   it 'responds to deposit' do
     expect(subject).to respond_to(:deposit).with(2).argument
   end

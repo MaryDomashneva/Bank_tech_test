@@ -6,11 +6,6 @@ class Bank
   attr_reader :account
   attr_reader :transactions
 
-  ERROR_MESSAGES = {
-    exceeded_available_balance: 'The amount you are trying withdraw is greater
-    than the available balance!'
-  }.freeze
-
   def initialize(account = 0)
     @account = account
     @transactions = {}

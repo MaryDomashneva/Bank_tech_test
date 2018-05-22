@@ -6,7 +6,6 @@ class Printer
   def print_statement(transactions, header = default_header)
     result_string = header + "\n" + convert_transactions_to_string(transactions)
     p result_string
-    result_string
   end
 
   private
@@ -19,11 +18,8 @@ class Printer
     string = ''
     all_transactions = reverse_hash(transactions)
     all_transactions.each do |date, statement|
-      string += if statement[1] == DEBIT_ACCESSORY
-                  format_debit_transaction(date, statement)
-                else
-                  format_credit_transaction(date, statement)
-                end
+      formatter_method = "format_#{statement[1].downcase}_transaction".to_sym
+      string += self.send(formatter_method, date, statement)
     end
     string.chomp(' ')
   end
