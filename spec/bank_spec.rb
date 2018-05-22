@@ -1,7 +1,9 @@
 require './lib/bank.rb'
 
 describe Bank do
-  
+
+  APP_CONFIG = YAML.load_file(File.join(__dir__, '../config/constants.yml'))
+
   it 'responds to deposit' do
     expect(subject).to respond_to(:deposit).with(2).argument
   end
@@ -37,11 +39,11 @@ describe Bank do
     end
 
     it 'writes amount to debit transaction' do
-      expect(@bank.transactions['10/01/2012'][0]).to equal(1000)
+      expect(@bank.transactions[0].amount).to equal(1000)
     end
 
     it 'writes current balance to debit transaction' do
-      expect(@bank.transactions['10/01/2012'][2]).to equal(1000)
+      expect(@bank.transactions[0].current_balance).to equal(1000)
     end
   end
 
@@ -53,7 +55,7 @@ describe Bank do
     context 'when withdraw amount more than available balance' do
       it 'raises an error' do
         expect { @bank.withdrawal(1500) }.to raise_error(
-          ERROR_MESSAGES[:exceeded_available_balance]
+          APP_CONFIG['error_messages']['exceeded_available_balance']
         )
       end
     end
@@ -66,13 +68,31 @@ describe Bank do
 
       it 'writes amount to credit transaction' do
         @bank.withdrawal(500, '14/01/2012')
-        expect(@bank.transactions['14/01/2012'][0]).to equal(500)
+        expect(@bank.transactions[0].amount).to equal(500)
       end
 
       it 'writes current balance to debit transaction' do
         @bank.withdrawal(500, '14/01/2012')
-        expect(@bank.transactions['14/01/2012'][2]).to equal(500)
+        expect(@bank.transactions[0].current_balance).to equal(500)
       end
+    end
+  end
+
+  describe '#print_account_transactions' do
+    before(:each) do
+      @bank = Bank.new(1000)
+      @transactions = [
+        Transaction.new('10/01/2012', 1000, 'debit', 1000),
+        Transaction.new('13/01/2012', 2000, 'debit', 3000),
+        Transaction.new('14/01/2012', 500, 'credit', 2500)
+      ]
+      @printer = double(:print)
+      allow(@printer).to receive(:print_statement)
+    end
+
+    it 'tells printer to print transactions' do
+      expect(@printer).to receive(:print_statement).with(@transactions)
+      @bank.print_account_transactions(@transactions, @printer)
     end
   end
 end

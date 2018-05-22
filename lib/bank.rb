@@ -1,42 +1,40 @@
-require_relative './accessories'
-require_relative './print_transactions'
+require_relative './printer'
+require_relative './transaction'
+require 'yaml'
 
 # Bank holds information about user's account and trasactions
 class Bank
   attr_reader :account
   attr_reader :transactions
 
+  APP_CONFIG = YAML.load_file(File.join(__dir__, '../config/constants.yml'))
+
   def initialize(account = 0)
     @account = account
-    @transactions = {}
+    @transactions = []
   end
 
   def deposit(amount, date = Time.now)
     @account += amount
-    accessory = DEBIT_ACCESSORY
+    accessory = APP_CONFIG['accessories']['debit']
     current_balance = @account
-    write_transaction(date, amount, accessory, current_balance)
+    @transactions << Transaction.new(date, amount, accessory, current_balance)
   end
 
   def withdrawal(amount, date = Time.now)
-    raise ERROR_MESSAGES[:exceeded_available_balance] if exceed_balance?(amount)
+    error = APP_CONFIG['error_messages']['exceeded_available_balance']
+    raise error if exceed_balance?(amount)
     @account -= amount
-    accessory = CREDIT_ACCESSORY
+    accessory = APP_CONFIG['accessories']['credit']
     current_balance = @account
-    write_transaction(date, amount, accessory, current_balance)
+    @transactions << Transaction.new(date, amount, accessory, current_balance)
   end
 
-  def print_account_transactions(transactions)
-    printer = Printer.new
+  def print_account_transactions(transactions, printer = Printer.new)
     printer.print_statement(transactions)
   end
 
   private
-
-  def write_transaction(date, amount, accessory, current_balance)
-    transaction = [amount, accessory, current_balance]
-    @transactions[date] = transaction
-  end
 
   def exceed_balance?(amount)
     @account < amount
