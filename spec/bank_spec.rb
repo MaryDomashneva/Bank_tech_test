@@ -14,7 +14,7 @@ describe Bank do
     expect(subject).to respond_to(:withdrawal).with(2).argument
   end
 
-  context 'Initialize' do
+  describe '#initialize' do
     context 'when a account is specified' do
       it 'uses that account' do
         account = 1000
@@ -30,7 +30,7 @@ describe Bank do
     end
   end
 
-  context 'when make a deposit to a bank account' do
+  describe '#deposit' do
     before(:each) do
       @bank = Bank.new
       @bank.deposit(1000, '10/01/2012')
@@ -49,30 +49,34 @@ describe Bank do
     end
   end
 
-  context 'when withdrawal from account' do
+  describe '#withdrawal' do
     before(:each) do
       @bank = Bank.new(1000)
     end
 
-    it 'raises an error when withdraw amount more than available balance' do
-      expect { @bank.withdrawal(1500) }.to raise_error(
-        ERROR_MESSAGES[:exceeded_available_balance]
-      )
+    context 'when withdraw amount more than available balance' do
+      it 'raises an error' do
+        expect { @bank.withdrawal(1500) }.to raise_error(
+          ERROR_MESSAGES[:exceeded_available_balance]
+        )
+      end
     end
 
-    it 'deducted from bank account when withdraw correct amount' do
-      @bank.withdrawal(500, '14/01/2012')
-      expect(@bank.account).to equal(500)
-    end
+    context 'when withdraw correct amount' do
+      it 'deducted from bank account' do
+        @bank.withdrawal(500, '14/01/2012')
+        expect(@bank.account).to equal(500)
+      end
 
-    it 'writes amount to credit transaction' do
-      @bank.withdrawal(500, '14/01/2012')
-      expect(@bank.transactions['14/01/2012'][0]).to equal(500)
-    end
+      it 'writes amount to credit transaction' do
+        @bank.withdrawal(500, '14/01/2012')
+        expect(@bank.transactions['14/01/2012'][0]).to equal(500)
+      end
 
-    it 'writes current balance to debit transaction' do
-      @bank.withdrawal(500, '14/01/2012')
-      expect(@bank.transactions['14/01/2012'][2]).to equal(500)
+      it 'writes current balance to debit transaction' do
+        @bank.withdrawal(500, '14/01/2012')
+        expect(@bank.transactions['14/01/2012'][2]).to equal(500)
+      end
     end
   end
 end

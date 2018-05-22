@@ -6,7 +6,7 @@ describe Printer do
     expect(subject).to respond_to(:print_statement).with(1).argument
   end
 
-  context 'print_statement' do
+  describe '#print_statement' do
     it 'returns correct string that is printed' do
       header = 'date || credit || debit || balance'
       transactions = {

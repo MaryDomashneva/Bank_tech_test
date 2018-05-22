@@ -50,7 +50,7 @@ Bank has following methods:
 * ```withdrawal``` allows a user to take money from bank account.
 * ```print_account_transactions``` responsible for printing all available bank transactions in a table format. class ```Printer``` called inside.
 
-Printer has two classes:
+Printer has one method:
 * ```print_statement```. Print header and transaction string.
 
 ### IRB example
