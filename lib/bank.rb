@@ -1,5 +1,6 @@
 require_relative './printer'
 require_relative './transaction'
+require_relative './transaction_list'
 require 'yaml'
 
 # Bank holds information about user's account and trasactions
@@ -9,16 +10,17 @@ class Bank
 
   APP_CONFIG = YAML.load_file(File.join(__dir__, '../config/constants.yml'))
 
-  def initialize(account = 0)
+  def initialize(account = 0, transaction_class = Transaction, transaction_list_class = TransactionList)
     @account = account
-    @transactions = []
+    @transactions = transaction_list_class.new
+    @transaction_class = transaction_class
   end
 
   def deposit(amount, date = Time.now)
     @account += amount
     accessory = APP_CONFIG['accessories']['debit']
     current_balance = @account
-    @transactions << Transaction.new(date, amount, accessory, current_balance)
+    @transactions.save(@transaction_class.new(date, amount, accessory, current_balance))
   end
 
   def withdrawal(amount, date = Time.now)
@@ -27,7 +29,7 @@ class Bank
     @account -= amount
     accessory = APP_CONFIG['accessories']['credit']
     current_balance = @account
-    @transactions << Transaction.new(date, amount, accessory, current_balance)
+    @transactions.save(@transaction_class.new(date, amount, accessory, current_balance))
   end
 
   def print_account_transactions(transactions, printer = Printer.new)
