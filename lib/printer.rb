@@ -15,23 +15,19 @@ class Printer
     string = ''
     all_transactions = sort_transactions_by_date(transactions)
     all_transactions.each do |transaction|
-      accessory = transaction.accessory.downcase
-      formatter_method = "format_#{accessory}_transaction".to_sym
-      string += send(formatter_method, transaction)
+      string += "#{format_date(transaction.date)}" \
+                      "|| #{credit?(transaction)} || #{debit?(transaction)} || " \
+                      "#{format_float(transaction.current_balance)}\n"
     end
     string.chomp(' ')
   end
 
-  def format_debit_transaction(transaction)
-    "#{format_date(transaction.date)} || || \
-#{format_float(transaction.amount)} \
-|| #{format_float(transaction.current_balance)}\n"
+  def debit?(transaction)
+    transaction.accessory == 'debit' ? format_float(transaction.amount) : ''
   end
 
-  def format_credit_transaction(transaction)
-    "#{format_date(transaction.date)} || \
-#{format_float(transaction.amount)} || \
-|| #{format_float(transaction.current_balance)}\n"
+  def credit?(transaction)
+    transaction.accessory == 'credit' ? format_float(transaction.amount) : ''
   end
 
   def format_float(number)
