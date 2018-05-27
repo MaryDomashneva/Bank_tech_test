@@ -3,15 +3,15 @@
 Bank tech test
 =================
 
-## Specification
+## Specification:
 
-### Requirements
+### Requirements:
 
 * Deposits, withdrawal.
 * Account statement (date, amount, balance) printing.
 * Data can be kept in memory (it doesn't need to be stored to a database or anything).
 
-### Acceptance criteria
+### Acceptance criteria:
 
 **Given** a client makes a deposit of 1000 on 10-01-2012  
 **And** a deposit of 2000 on 13-01-2012  
@@ -26,21 +26,21 @@ date || credit || debit || balance
 10/01/2012 || 1000.00 || || 1000.00
 ```
 
-## Result
+## Result:
 
-#### Technology used
+#### Technology used:
 
 * Ruby 2.5.0
 * Rspec
 * Rubocop
 * Simplecov
 
-#### Run project
+#### Run project:
 
 * In order to run tests, clone project, install ruby 2.5.0, install Rspec ```gem 'rspec'``` and ```rspec``` command in terminal.
 * The easiest way to try project is in IRB: ```inside terminal irb -r./lib/bank.rb```
 
-### Project description
+### Project description:
 
 The project has two classes: ```Bank``` and ```Printer```
 Bank initialized with ```account```, if not specified equal 0 and empty ```transactions``` hash.
@@ -53,7 +53,7 @@ Bank has following methods:
 Printer has one method:
 * ```print_statement```. Print header and transaction string.
 
-### IRB example
+### IRB example:
 
 ```
 Marias-MacBook-Pro:Bank_tech_test mariagetmanova$ irb -r./lib/bank.rb
